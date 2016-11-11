@@ -16,4 +16,10 @@ class VendingMachineSpec extends UnitSpec {
     assert(total == 5)
   }
 
+  it should "accept quarters and value them at 25 cents" in {
+    val vendingMachine = new VendingMachine()
+    val total = vendingMachine.insertCoin("quarter")
+    assert(total == 25)
+  }
+
 }

@@ -15,8 +15,13 @@ class VendingMachine {
     return 0.0f
   }
 
-  def checkDisplay(currentTotal: Float): String = {
-    "Insert Coins"
+  def checkDisplay(currentTotal: Float): String = currentTotal match {
+    case 0.0f => "Insert Coins"
+    case x: Float => formatAmount(x)
+  }
+
+  private def formatAmount(amount: Float): String = {
+    "$" + amount.toString() + (if (amount.toString().length() == 3) "0" else "")
   }
 
 }

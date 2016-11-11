@@ -48,4 +48,13 @@ class VendingMachineSpec extends UnitSpec {
     assert(message == "Insert Coins")
   }
 
+  it should "display the total value of all inserted coins" in {
+    var total = 0.0f
+    total = vendingMachine.insertCoin("quarter", total) + vendingMachine.insertCoin("quarter", total)
+    total = vendingMachine.insertCoin("dime", total)
+    assert(total == 0.60f)
+    val message = vendingMachine.checkDisplay(total)
+    assert(message == "$0.60")
+  }
+
 }

@@ -22,4 +22,10 @@ class VendingMachineSpec extends UnitSpec {
     assert(total == 25)
   }
 
+  it should "reject pennies and value them at 0 cents" in {
+    val vendingMachine = new VendingMachine()
+    val total = vendingMachine.insertCoin("penny")
+    assert(total == 0)
+  }
+
 }

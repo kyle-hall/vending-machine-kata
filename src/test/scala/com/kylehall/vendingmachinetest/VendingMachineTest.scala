@@ -34,4 +34,12 @@ class VendingMachineSpec extends UnitSpec {
     assert(total == 0.35f)
   }
 
+  it should "return all coins if requested" in {
+    var total = 0.0f
+    total = vendingMachine.insertCoin("quarter", total) + vendingMachine.insertCoin("quarter", total)
+    assert(total == 0.50f)
+    total = vendingMachine.returnCoins(total)
+    assert(total == 0.0f)
+  }
+
 }

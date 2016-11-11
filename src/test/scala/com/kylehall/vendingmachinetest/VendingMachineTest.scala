@@ -42,4 +42,10 @@ class VendingMachineSpec extends UnitSpec {
     assert(total == 0.0f)
   }
 
+  it should "display 'Insert Coins' if no coins have been entered and the display is checked" in {
+    val total = 0.0f
+    val message = vendingMachine.checkDisplay(total)
+    assert(message == "Insert Coins")
+  }
+
 }

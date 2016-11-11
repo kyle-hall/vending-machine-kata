@@ -15,4 +15,8 @@ class VendingMachine {
     return 0.0f
   }
 
+  def checkDisplay(currentTotal: Float): String = {
+    "Insert Coins"
+  }
+
 }

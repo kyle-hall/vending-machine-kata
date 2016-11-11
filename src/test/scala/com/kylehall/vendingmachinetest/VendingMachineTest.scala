@@ -26,4 +26,12 @@ class VendingMachineSpec extends UnitSpec {
     assert(total == 0.0f)
   }
 
+  it should "accept multiple coins and keep running total" in {
+    var total = 0.0f
+    total += vendingMachine.insertCoin("dime")
+    assert(total == 0.10f)
+    total += vendingMachine.insertCoin("quarter")
+    assert(total == 0.35f)
+  }
+
 }

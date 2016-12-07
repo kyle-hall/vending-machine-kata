@@ -64,4 +64,9 @@ class VendingMachineSpec extends UnitSpec {
     assert(message == SIXTY_CENT_DISPLAY)
   }
 
+  it should "allow the customer to select a product and return it to them" in {
+    val product = vendingMachine.selectProduct("cola")
+    assert(product == "cola")
+  }
+
 }

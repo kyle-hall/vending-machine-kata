@@ -22,4 +22,8 @@ class VendingMachine {
     "$" + amount.toString() + (if (amount.toString().length() == 3) "0" else "")
   }
 
+  def selectProduct(product: String): String = {
+    return product
+  }
+
 }

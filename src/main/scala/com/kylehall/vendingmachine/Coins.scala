@@ -1,10 +1,15 @@
 package com.kylehall.vendingmachine
 
 object Coins {
+  val PENNY = "penny"
+  val NICKEL = "nickel"
+  val DIME = "dime"
+  val QUARTER = "quarter"
+
   val coins = Map(
-    "penny" -> 0.0f,
-    "nickel" -> 0.05f,
-    "dime" -> 0.10f,
-    "quarter" -> 0.25f
+    PENNY -> 0.0f,
+    NICKEL -> 0.05f,
+    DIME -> 0.10f,
+    QUARTER -> 0.25f
   )
 }

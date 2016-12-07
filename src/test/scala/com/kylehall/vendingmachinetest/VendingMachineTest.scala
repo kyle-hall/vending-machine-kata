@@ -2,14 +2,9 @@ package com.kylehall.vendingmachinetest
 
 import com.kylehall.vendingmachine.VendingMachine
 import com.kylehall.vendingmachine.Coins
+import com.kylehall.vendingmachine.Coins.{PENNY, NICKEL, DIME, QUARTER}
 
 class VendingMachineSpec extends UnitSpec {
-
-  // Extract these to the Coins object.
-  val PENNY = "penny"
-  val NICKEL = "nickel"
-  val DIME = "dime"
-  val QUARTER = "quarter"
 
   val SIXTY_CENT_DISPLAY = "$0.60"
   val INSERT_COINS = "Insert Coins"

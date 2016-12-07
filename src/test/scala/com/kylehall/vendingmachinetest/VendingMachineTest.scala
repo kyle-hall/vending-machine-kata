@@ -5,10 +5,18 @@ import com.kylehall.vendingmachine.Coins
 
 class VendingMachineSpec extends UnitSpec {
 
+  // Extract these to the Coins object.
   val PENNY = "penny"
   val NICKEL = "nickel"
   val DIME = "dime"
   val QUARTER = "quarter"
+
+  val SIXTY_CENT_DISPLAY = "$0.60"
+  val INSERT_COINS = "Insert Coins"
+
+  val DIME_PLUS_QUARTER = 0.35f
+  val FIFTY_CENTS = 0.50f
+  val SIXTY_CENTS = 0.60f
 
   def vendingMachine = new VendingMachine()
 
@@ -28,38 +36,37 @@ class VendingMachineSpec extends UnitSpec {
   }
 
   it should "reject pennies and value them at 0 cents" in {
-    val total = vendingMachine.insertCoin("penny", Coins.coins(PENNY))
+    val total = vendingMachine.insertCoin(PENNY, Coins.coins(PENNY))
     assert(total == Coins.coins(PENNY))
   }
 
   it should "accept multiple coins and keep running total" in {
-    val dimeTotal = vendingMachine.insertCoin("dime", Coins.coins(PENNY))
-    assert(dimeTotal == 0.10f)
-    val plusQuartertotal = vendingMachine.insertCoin("quarter", dimeTotal)
-    assert(plusQuartertotal == 0.35f)
+    val dimeTotal = vendingMachine.insertCoin(DIME, Coins.coins(PENNY))
+    assert(dimeTotal == Coins.coins(DIME))
+    val plusQuarterTotal = vendingMachine.insertCoin(QUARTER, dimeTotal)
+    assert(plusQuarterTotal == DIME_PLUS_QUARTER)
   }
 
   it should "return all coins if requested" in {
-    var total = 0.0f
-    total = vendingMachine.insertCoin("quarter", total) + vendingMachine.insertCoin("quarter", total)
-    assert(total == 0.50f)
-    total = vendingMachine.returnCoins(total)
-    assert(total == 0.0f)
+    val twoQuarters = vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY)) +
+      vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY))
+    assert(twoQuarters == FIFTY_CENTS)
+    val totalAfterReturnCoins = vendingMachine.returnCoins(twoQuarters)
+    assert(totalAfterReturnCoins == Coins.coins(PENNY))
   }
 
   it should "display 'Insert Coins' if no coins have been entered and the display is checked" in {
-    val total = 0.0f
-    val message = vendingMachine.checkDisplay(total)
-    assert(message == "Insert Coins")
+    val message = vendingMachine.checkDisplay(Coins.coins(PENNY))
+    assert(message == INSERT_COINS)
   }
 
   it should "display the total value of all inserted coins" in {
-    var total = 0.0f
-    total = vendingMachine.insertCoin("quarter", total) + vendingMachine.insertCoin("quarter", total)
-    total = vendingMachine.insertCoin("dime", total)
-    assert(total == 0.60f)
-    val message = vendingMachine.checkDisplay(total)
-    assert(message == "$0.60")
+    val sixtyCents = vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY)) +
+      vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY)) +
+      vendingMachine.insertCoin(DIME, Coins.coins(PENNY))
+    assert(sixtyCents == SIXTY_CENTS)
+    val message = vendingMachine.checkDisplay(sixtyCents)
+    assert(message == SIXTY_CENT_DISPLAY)
   }
 
 }

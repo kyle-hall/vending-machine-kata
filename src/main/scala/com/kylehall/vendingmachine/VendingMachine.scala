@@ -1,16 +1,18 @@
 package com.kylehall.vendingmachine
 
+import Coins._
+
 class VendingMachine {
 
   def insertCoin(coin: String, currentTotal: Float): Float = coin match {
-    case "dime" => currentTotal + 0.10f
-    case "nickel" => currentTotal + 0.05f
-    case "quarter" => currentTotal + 0.25f
-    case _ => 0.0f
+    case DIME => currentTotal + coins(DIME)
+    case NICKEL => currentTotal + coins(NICKEL)
+    case QUARTER => currentTotal + coins(QUARTER)
+    case _ => coins(PENNY)
   }
 
   def returnCoins(currentTotal: Float): Float = {
-    return 0.0f
+    return coins(PENNY)
   }
 
   def checkDisplay(currentTotal: Float): String = currentTotal match {

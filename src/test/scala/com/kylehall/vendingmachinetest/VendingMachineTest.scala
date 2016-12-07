@@ -1,38 +1,39 @@
 package com.kylehall.vendingmachinetest
 
 import com.kylehall.vendingmachine.VendingMachine
+import com.kylehall.vendingmachine.Coins
 
 class VendingMachineSpec extends UnitSpec {
 
-  val ZERO = 0.0f
-  val NICKEL = 0.05f
-  val DIME = 0.10f
-  val QUARTER = 0.25f
+  val PENNY = "penny"
+  val NICKEL = "nickel"
+  val DIME = "dime"
+  val QUARTER = "quarter"
 
   def vendingMachine = new VendingMachine()
 
   "A VendingMachine" should "accept dimes and value them at 10 cents" in {
-    val total = vendingMachine.insertCoin("dime", ZERO)
-    assert(total == DIME)
+    val total = vendingMachine.insertCoin(DIME, Coins.coins(PENNY))
+    assert(total == Coins.coins(DIME))
   }
 
   it should "accept nickels and value them at 5 cents" in {
-    val total = vendingMachine.insertCoin("nickel", ZERO)
-    assert(total == NICKEL)
+    val total = vendingMachine.insertCoin(NICKEL, Coins.coins(PENNY))
+    assert(total == Coins.coins(NICKEL))
   }
 
   it should "accept quarters and value them at 25 cents" in {
-    val total = vendingMachine.insertCoin("quarter", ZERO)
-    assert(total == QUARTER)
+    val total = vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY))
+    assert(total == Coins.coins(QUARTER))
   }
 
   it should "reject pennies and value them at 0 cents" in {
-    val total = vendingMachine.insertCoin("penny", ZERO)
-    assert(total == ZERO)
+    val total = vendingMachine.insertCoin("penny", Coins.coins(PENNY))
+    assert(total == Coins.coins(PENNY))
   }
 
   it should "accept multiple coins and keep running total" in {
-    val dimeTotal = vendingMachine.insertCoin("dime", ZERO)
+    val dimeTotal = vendingMachine.insertCoin("dime", Coins.coins(PENNY))
     assert(dimeTotal == 0.10f)
     val plusQuartertotal = vendingMachine.insertCoin("quarter", dimeTotal)
     assert(plusQuartertotal == 0.35f)

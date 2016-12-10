@@ -1,6 +1,7 @@
 package com.kylehall.vendingmachine
 
 import Coins._
+import Products._
 
 class VendingMachine {
 
@@ -24,8 +25,9 @@ class VendingMachine {
     "$" + amount.toString() + (if (amount.toString().length() == 3) "0" else "")
   }
 
-  def selectProduct(product: String): String = {
-    return product
+  def selectProduct(product: String, insertedAmount: Float): String = {
+    val returnedProduct = if (product == "cola" && insertedAmount == 1.00f) "cola" else ""
+    returnedProduct
   }
 
 }

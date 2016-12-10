@@ -12,6 +12,7 @@ class VendingMachineSpec extends UnitSpec {
   val DIME_PLUS_QUARTER = 0.35f
   val FIFTY_CENTS = 0.50f
   val SIXTY_CENTS = 0.60f
+  val ONE_DOLLAR = 1.00f
 
   def vendingMachine = new VendingMachine()
 
@@ -65,7 +66,12 @@ class VendingMachineSpec extends UnitSpec {
   }
 
   it should "allow the customer to select a product and return it to them" in {
-    val product = vendingMachine.selectProduct("cola")
+    val oneDollar = vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY)) +
+      vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY)) +
+      vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY)) +
+      vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY))
+    assert(oneDollar == ONE_DOLLAR)
+    val product = vendingMachine.selectProduct("cola", oneDollar)
     assert(product == "cola")
   }
 

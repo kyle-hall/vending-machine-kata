@@ -75,4 +75,12 @@ class VendingMachineSpec extends UnitSpec {
     assert(product == "cola")
   }
 
+  it should "allow the customer to select chips and have chips returned to them" in {
+    val fiftyCents = vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY)) +
+      vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY))
+    assert(fiftyCents == FIFTY_CENTS)
+    val product = vendingMachine.selectProduct("chips", fiftyCents)
+    assert(product == "chips")
+  }
+
 }

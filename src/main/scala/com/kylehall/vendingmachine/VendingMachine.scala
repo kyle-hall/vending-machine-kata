@@ -26,7 +26,8 @@ class VendingMachine {
   }
 
   def selectProduct(product: String, insertedAmount: Float): String = {
-    val returnedProduct = if (product == "cola" && insertedAmount == 1.00f) "cola" else ""
+    val price = products(product)
+    val returnedProduct = if (insertedAmount <= price) product else ""
     returnedProduct
   }
 

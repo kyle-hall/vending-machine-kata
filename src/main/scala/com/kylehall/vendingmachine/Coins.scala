@@ -6,7 +6,7 @@ object Coins {
   val DIME = "dime"
   val QUARTER = "quarter"
 
-  val coins = Map(
+  val coins = Map (
     PENNY -> 0.0f,
     NICKEL -> 0.05f,
     DIME -> 0.10f,

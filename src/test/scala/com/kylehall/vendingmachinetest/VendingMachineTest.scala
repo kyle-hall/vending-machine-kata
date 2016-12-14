@@ -12,6 +12,7 @@ class VendingMachineSpec extends UnitSpec {
   val DIME_PLUS_QUARTER = 0.35f
   val FIFTY_CENTS = 0.50f
   val SIXTY_CENTS = 0.60f
+  val SIXTY_FIVE_CENTS = 0.65f
   val ONE_DOLLAR = 1.00f
 
   def vendingMachine = new VendingMachine()
@@ -81,6 +82,15 @@ class VendingMachineSpec extends UnitSpec {
     assert(fiftyCents == FIFTY_CENTS)
     val product = vendingMachine.selectProduct("chips", fiftyCents)
     assert(product == "chips")
+  }
+
+  it should "allow the customer to select candy and receive candy" in {
+    val sixtyFiveCents = vendingMachine.insertCoin(QUARTER, vendingMachine.insertCoin(QUARTER, vendingMachine.insertCoin(NICKEL, vendingMachine.insertCoin(DIME, Coins.coins(PENNY)))))
+    assert(sixtyFiveCents == SIXTY_FIVE_CENTS)
+
+    val product = vendingMachine.selectProduct("candy", sixtyFiveCents)
+
+    assert(product == "candy")
   }
 
 }

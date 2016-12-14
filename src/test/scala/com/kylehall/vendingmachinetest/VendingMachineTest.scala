@@ -4,6 +4,8 @@ import com.kylehall.vendingmachine.VendingMachine
 import com.kylehall.vendingmachine.Coins
 import com.kylehall.vendingmachine.Coins.{PENNY, NICKEL, DIME, QUARTER}
 
+import com.kylehall.vendingmachine.Products.{CANDY, COLA, CHIPS}
+
 class VendingMachineSpec extends UnitSpec {
 
   val SIXTY_CENT_DISPLAY = "$0.60"
@@ -72,25 +74,25 @@ class VendingMachineSpec extends UnitSpec {
       vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY)) +
       vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY))
     assert(oneDollar == ONE_DOLLAR)
-    val product = vendingMachine.selectProduct("cola", oneDollar)
-    assert(product == "cola")
+    val product = vendingMachine.selectProduct(COLA, oneDollar)
+    assert(product == COLA)
   }
 
   it should "allow the customer to select chips and have chips returned to them" in {
     val fiftyCents = vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY)) +
       vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY))
     assert(fiftyCents == FIFTY_CENTS)
-    val product = vendingMachine.selectProduct("chips", fiftyCents)
-    assert(product == "chips")
+    val product = vendingMachine.selectProduct(CHIPS, fiftyCents)
+    assert(product == CHIPS)
   }
 
   it should "allow the customer to select candy and receive candy" in {
     val sixtyFiveCents = vendingMachine.insertCoin(QUARTER, vendingMachine.insertCoin(QUARTER, vendingMachine.insertCoin(NICKEL, vendingMachine.insertCoin(DIME, Coins.coins(PENNY)))))
     assert(sixtyFiveCents == SIXTY_FIVE_CENTS)
 
-    val product = vendingMachine.selectProduct("candy", sixtyFiveCents)
+    val product = vendingMachine.selectProduct(CANDY, sixtyFiveCents)
 
-    assert(product == "candy")
+    assert(product == CANDY)
   }
 
 }

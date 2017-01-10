@@ -18,6 +18,7 @@ class VendingMachine {
 
   def checkDisplay(currentTotal: Float): String = currentTotal match {
     case 0.0f => "Insert Coins"
+    case -1.0f => "Thank you!"
     case x: Float => formatAmount(x)
   }
 
@@ -25,10 +26,11 @@ class VendingMachine {
     "$" + amount.toString() + (if (amount.toString().length() == 3) "0" else "")
   }
 
-  def selectProduct(product: String, insertedAmount: Float): String = {
+  def selectProduct(product: String, insertedAmount: Float): (String,String) = {
     val price = products(product)
     val returnedProduct = if (insertedAmount <= price) product else ""
-    returnedProduct
+    val message = checkDisplay(-1.0f)
+    (returnedProduct, message)
   }
 
 }

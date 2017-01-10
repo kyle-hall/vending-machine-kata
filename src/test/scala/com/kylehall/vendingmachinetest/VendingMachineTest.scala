@@ -74,7 +74,7 @@ class VendingMachineSpec extends UnitSpec {
       vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY)) +
       vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY))
     assert(oneDollar == ONE_DOLLAR)
-    val product = vendingMachine.selectProduct(COLA, oneDollar)
+    val product = vendingMachine.selectProduct(COLA, oneDollar)._1
     assert(product == COLA)
   }
 
@@ -82,7 +82,7 @@ class VendingMachineSpec extends UnitSpec {
     val fiftyCents = vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY)) +
       vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY))
     assert(fiftyCents == FIFTY_CENTS)
-    val product = vendingMachine.selectProduct(CHIPS, fiftyCents)
+    val product = vendingMachine.selectProduct(CHIPS, fiftyCents)._1
     assert(product == CHIPS)
   }
 
@@ -90,9 +90,20 @@ class VendingMachineSpec extends UnitSpec {
     val sixtyFiveCents = vendingMachine.insertCoin(QUARTER, vendingMachine.insertCoin(QUARTER, vendingMachine.insertCoin(NICKEL, vendingMachine.insertCoin(DIME, Coins.coins(PENNY)))))
     assert(sixtyFiveCents == SIXTY_FIVE_CENTS)
 
-    val product = vendingMachine.selectProduct(CANDY, sixtyFiveCents)
+    val product = vendingMachine.selectProduct(CANDY, sixtyFiveCents)._1
 
     assert(product == CANDY)
+  }
+
+  it should "display THANK YOU after a customer purchases a product" in {
+    val sixtyFiveCents = vendingMachine.insertCoin(QUARTER, vendingMachine.insertCoin(QUARTER, vendingMachine.insertCoin(NICKEL, vendingMachine.insertCoin(DIME, Coins.coins(PENNY)))))
+    assert(sixtyFiveCents == SIXTY_FIVE_CENTS)
+
+    val results = vendingMachine.selectProduct(CANDY, sixtyFiveCents)
+    val product = results._1
+    val message = results._2
+    assert(product == CANDY)
+    assert(message == "Thank you!")
   }
 
 }

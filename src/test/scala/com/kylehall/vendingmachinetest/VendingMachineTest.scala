@@ -106,4 +106,17 @@ class VendingMachineSpec extends UnitSpec {
     assert(message == "Thank you!")
   }
 
+  it should "display PRICE and the price of the item if the entered amount is insufficient to purchase the product" in {
+    val fiftyCents = vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY)) +
+      vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY))
+
+    assert(fiftyCents == FIFTY_CENTS)
+
+    val results = vendingMachine.selectProduct(CANDY, fiftyCents)
+    val product = results._1
+    val message = results._2
+    assert(product == "")
+    assert(message == "Price: $0.65")
+  }
+
 }

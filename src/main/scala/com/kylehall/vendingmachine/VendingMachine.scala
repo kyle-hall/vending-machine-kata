@@ -22,14 +22,19 @@ class VendingMachine {
     case x: Float => formatAmount(x)
   }
 
+  def checkDisplay(currentProduct: String, returnedProduct: String): String = returnedProduct match {
+    case "" => "Price: " + formatAmount(products(currentProduct))
+    case _: String => "Thank you!"
+  }
+
   private def formatAmount(amount: Float): String = {
     "$" + amount.toString() + (if (amount.toString().length() == 3) "0" else "")
   }
 
   def selectProduct(product: String, insertedAmount: Float): (String,String) = {
     val price = products(product)
-    val returnedProduct = if (insertedAmount <= price) product else ""
-    val message = checkDisplay(-1.0f)
+    val returnedProduct = if (insertedAmount >= price) product else ""
+    val message = checkDisplay(product, returnedProduct)
     (returnedProduct, message)
   }
 

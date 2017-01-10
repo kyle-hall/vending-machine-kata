@@ -20,74 +20,74 @@ class VendingMachineSpec extends UnitSpec {
   def vendingMachine = new VendingMachine()
 
   "A VendingMachine" should "accept dimes and value them at 10 cents" in {
-    val total = vendingMachine.insertCoin(DIME, Coins.coins(PENNY))
+    val total = vendingMachine.coinOp.insertCoin(DIME, Coins.coins(PENNY))
     assert(total == Coins.coins(DIME))
   }
 
   it should "accept nickels and value them at 5 cents" in {
-    val total = vendingMachine.insertCoin(NICKEL, Coins.coins(PENNY))
+    val total = vendingMachine.coinOp.insertCoin(NICKEL, Coins.coins(PENNY))
     assert(total == Coins.coins(NICKEL))
   }
 
   it should "accept quarters and value them at 25 cents" in {
-    val total = vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY))
+    val total = vendingMachine.coinOp.insertCoin(QUARTER, Coins.coins(PENNY))
     assert(total == Coins.coins(QUARTER))
   }
 
   it should "reject pennies and value them at 0 cents" in {
-    val total = vendingMachine.insertCoin(PENNY, Coins.coins(PENNY))
+    val total = vendingMachine.coinOp.insertCoin(PENNY, Coins.coins(PENNY))
     assert(total == Coins.coins(PENNY))
   }
 
   it should "accept multiple coins and keep running total" in {
-    val dimeTotal = vendingMachine.insertCoin(DIME, Coins.coins(PENNY))
+    val dimeTotal = vendingMachine.coinOp.insertCoin(DIME, Coins.coins(PENNY))
     assert(dimeTotal == Coins.coins(DIME))
-    val plusQuarterTotal = vendingMachine.insertCoin(QUARTER, dimeTotal)
+    val plusQuarterTotal = vendingMachine.coinOp.insertCoin(QUARTER, dimeTotal)
     assert(plusQuarterTotal == DIME_PLUS_QUARTER)
   }
 
   it should "return all coins if requested" in {
-    val twoQuarters = vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY)) +
-      vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY))
+    val twoQuarters = vendingMachine.coinOp.insertCoin(QUARTER, Coins.coins(PENNY)) +
+      vendingMachine.coinOp.insertCoin(QUARTER, Coins.coins(PENNY))
     assert(twoQuarters == FIFTY_CENTS)
-    val totalAfterReturnCoins = vendingMachine.returnCoins(twoQuarters)
+    val totalAfterReturnCoins = vendingMachine.coinOp.returnCoins(twoQuarters)
     assert(totalAfterReturnCoins == Coins.coins(PENNY))
   }
 
   it should "display 'Insert Coins' if no coins have been entered and the display is checked" in {
-    val message = vendingMachine.checkDisplay(Coins.coins(PENNY))
+    val message = vendingMachine.display.displayMessage(Coins.coins(PENNY))
     assert(message == INSERT_COINS)
   }
 
   it should "display the total value of all inserted coins" in {
-    val sixtyCents = vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY)) +
-      vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY)) +
-      vendingMachine.insertCoin(DIME, Coins.coins(PENNY))
+    val sixtyCents = vendingMachine.coinOp.insertCoin(QUARTER, Coins.coins(PENNY)) +
+      vendingMachine.coinOp.insertCoin(QUARTER, Coins.coins(PENNY)) +
+      vendingMachine.coinOp.insertCoin(DIME, Coins.coins(PENNY))
     assert(sixtyCents == SIXTY_CENTS)
-    val message = vendingMachine.checkDisplay(sixtyCents)
+    val message = vendingMachine.display.displayMessage(sixtyCents)
     assert(message == SIXTY_CENT_DISPLAY)
   }
 
   it should "allow the customer to select a product and return it to them" in {
-    val oneDollar = vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY)) +
-      vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY)) +
-      vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY)) +
-      vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY))
+    val oneDollar = vendingMachine.coinOp.insertCoin(QUARTER, Coins.coins(PENNY)) +
+      vendingMachine.coinOp.insertCoin(QUARTER, Coins.coins(PENNY)) +
+      vendingMachine.coinOp.insertCoin(QUARTER, Coins.coins(PENNY)) +
+      vendingMachine.coinOp.insertCoin(QUARTER, Coins.coins(PENNY))
     assert(oneDollar == ONE_DOLLAR)
     val product = vendingMachine.selectProduct(COLA, oneDollar)._1
     assert(product == COLA)
   }
 
   it should "allow the customer to select chips and have chips returned to them" in {
-    val fiftyCents = vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY)) +
-      vendingMachine.insertCoin(QUARTER, Coins.coins(PENNY))
+    val fiftyCents = vendingMachine.coinOp.insertCoin(QUARTER, Coins.coins(PENNY)) +
+      vendingMachine.coinOp.insertCoin(QUARTER, Coins.coins(PENNY))
     assert(fiftyCents == FIFTY_CENTS)
     val product = vendingMachine.selectProduct(CHIPS, fiftyCents)._1
     assert(product == CHIPS)
   }
 
   it should "allow the customer to select candy and receive candy" in {
-    val sixtyFiveCents = vendingMachine.insertCoin(QUARTER, vendingMachine.insertCoin(QUARTER, vendingMachine.insertCoin(NICKEL, vendingMachine.insertCoin(DIME, Coins.coins(PENNY)))))
+    val sixtyFiveCents = vendingMachine.coinOp.insertCoin(QUARTER, vendingMachine.coinOp.insertCoin(QUARTER, vendingMachine.coinOp.insertCoin(NICKEL, vendingMachine.coinOp.insertCoin(DIME, Coins.coins(PENNY)))))
     assert(sixtyFiveCents == SIXTY_FIVE_CENTS)
 
     val product = vendingMachine.selectProduct(CANDY, sixtyFiveCents)._1
@@ -96,7 +96,7 @@ class VendingMachineSpec extends UnitSpec {
   }
 
   it should "display THANK YOU after a customer purchases a product" in {
-    val sixtyFiveCents = vendingMachine.insertCoin(QUARTER, vendingMachine.insertCoin(QUARTER, vendingMachine.insertCoin(NICKEL, vendingMachine.insertCoin(DIME, Coins.coins(PENNY)))))
+    val sixtyFiveCents = vendingMachine.coinOp.insertCoin(QUARTER, vendingMachine.coinOp.insertCoin(QUARTER, vendingMachine.coinOp.insertCoin(NICKEL, vendingMachine.coinOp.insertCoin(DIME, Coins.coins(PENNY)))))
     assert(sixtyFiveCents == SIXTY_FIVE_CENTS)
 
     val results = vendingMachine.selectProduct(CANDY, sixtyFiveCents)
@@ -104,6 +104,19 @@ class VendingMachineSpec extends UnitSpec {
     val message = results._2
     assert(product == CANDY)
     assert(message == "Thank you!")
+  }
+
+  it should "display PRICE and the price of the item if the entered amount is insufficient to purchase the product" in {
+    val fiftyCents = vendingMachine.coinOp.insertCoin(QUARTER, Coins.coins(PENNY)) +
+      vendingMachine.coinOp.insertCoin(QUARTER, Coins.coins(PENNY))
+
+    assert(fiftyCents == FIFTY_CENTS)
+
+    val results = vendingMachine.selectProduct(CANDY, fiftyCents)
+    val product = results._1
+    val message = results._2
+    assert(product == "")
+    assert(message == "Price: $0.65")
   }
 
 }

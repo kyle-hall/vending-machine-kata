@@ -17,6 +17,8 @@ class VendingMachineSpec extends UnitSpec {
   val SIXTY_FIVE_CENTS = 0.65f
   val ONE_DOLLAR = 1.00f
 
+  val INITIAL_INVENTORY = 3
+
   def vendingMachine = new VendingMachine()
 
   "A VendingMachine" should "accept dimes and value them at 10 cents" in {
@@ -117,6 +119,17 @@ class VendingMachineSpec extends UnitSpec {
     val message = results._2
     assert(product == "")
     assert(message == "Price: $0.65")
+  }
+
+  it should "contain an inventory of products with 3 of each product it sells" in {
+    val numOfCandies = vendingMachine.inventory(CANDY)
+    assert(numOfCandies == INITIAL_INVENTORY)
+
+    val numOfColas = vendingMachine.inventory(COLA)
+    assert(numOfCandies == INITIAL_INVENTORY)
+
+    val numOfChips = vendingMachine.inventory(CHIPS)
+    assert(numOfChips == INITIAL_INVENTORY)
   }
 
 }

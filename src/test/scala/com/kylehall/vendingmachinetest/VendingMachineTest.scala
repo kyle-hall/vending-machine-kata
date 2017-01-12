@@ -10,6 +10,7 @@ class VendingMachineSpec extends UnitSpec {
 
   val SIXTY_CENT_DISPLAY = "$0.60"
   val INSERT_COINS = "Insert Coins"
+  val THANK_YOU_MESSAGE = "Thank you!"
 
   val DIME_PLUS_QUARTER = 0.35f
   val FIFTY_CENTS = 0.50f
@@ -130,6 +131,19 @@ class VendingMachineSpec extends UnitSpec {
 
     val numOfChips = vendingMachine.inventory(CHIPS)
     assert(numOfChips == INITIAL_INVENTORY)
+  }
+
+  it should "remove a purchased item from the inventory" in {
+    val sixtyFiveCents = vendingMachine.coinOp.insertCoin(QUARTER, vendingMachine.coinOp.insertCoin(QUARTER, vendingMachine.coinOp.insertCoin(NICKEL, vendingMachine.coinOp.insertCoin(DIME, Coins.coins(PENNY)))))
+    assert(sixtyFiveCents == SIXTY_FIVE_CENTS)
+
+    val results = vendingMachine.selectProduct(CANDY, sixtyFiveCents)
+    val product = results._1
+    val message = results._2
+    assert(product == CANDY)
+    assert(message == "Thank you!")
+
+
   }
 
 }

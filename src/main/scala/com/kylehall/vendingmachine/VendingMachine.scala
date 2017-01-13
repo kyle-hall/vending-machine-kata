@@ -1,40 +1,28 @@
 package com.kylehall.vendingmachine
 
-import Coins._
 import Products._
+import scala.collection.mutable
 
 class VendingMachine {
 
-  def insertCoin(coin: String, currentTotal: Float): Float = coin match {
-    case DIME => currentTotal + coins(DIME)
-    case NICKEL => currentTotal + coins(NICKEL)
-    case QUARTER => currentTotal + coins(QUARTER)
-    case _ => coins(PENNY)
-  }
+  val coinOp = new CoinOp()
+  val display = new Display()
 
-  def returnCoins(currentTotal: Float): Float = {
-    return coins(PENNY)
-  }
-
-  def checkDisplay(currentTotal: Float): String = currentTotal match {
-    case 0.0f => "Insert Coins"
-    case -1.0f => "Thank you!"
-    case x: Float => formatAmount(x)
-  }
-
-  def checkDisplay(currentProduct: String, returnedProduct: String): String = returnedProduct match {
-    case "" => "Price: " + formatAmount(products(currentProduct))
-    case _: String => "Thank you!"
-  }
-
-  private def formatAmount(amount: Float): String = {
-    "$" + amount.toString() + (if (amount.toString().length() == 3) "0" else "")
-  }
+  val inventory = mutable.Map[String, Int](
+    CANDY -> 3,
+    CHIPS -> 3,
+    COLA -> 3
+  )
 
   def selectProduct(product: String, insertedAmount: Float): (String,String) = {
     val price = products(product)
     val returnedProduct = if (insertedAmount >= price) product else ""
-    val message = checkDisplay(product, returnedProduct)
+    if (returnedProduct != "") {
+      inventory.update(returnedProduct, inventory(returnedProduct) - 1)
+      println(s"returnedProduct is ${returnedProduct}")
+      println(s"Inventory value for that product is now: ${inventory(returnedProduct)}")
+    }
+    val message = display.displayMessage(product, returnedProduct)
     (returnedProduct, message)
   }
 

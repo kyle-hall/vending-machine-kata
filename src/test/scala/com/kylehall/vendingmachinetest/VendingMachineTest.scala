@@ -2,11 +2,11 @@ package com.kylehall.vendingmachinetest
 
 import com.kylehall.vendingmachine.VendingMachine
 import com.kylehall.vendingmachine.Coins
-import com.kylehall.vendingmachine.Coins.{PENNY, NICKEL, DIME, QUARTER}
+import com.kylehall.vendingmachine.Coins.{DIME, NICKEL, PENNY, QUARTER}
+import com.kylehall.vendingmachine.Products.{CANDY, CHIPS, COLA}
+import org.scalatest.BeforeAndAfter
 
-import com.kylehall.vendingmachine.Products.{CANDY, COLA, CHIPS}
-
-class VendingMachineSpec extends UnitSpec {
+class VendingMachineSpec extends UnitSpec with BeforeAndAfter {
 
   val SIXTY_CENT_DISPLAY = "$0.60"
   val INSERT_COINS = "Insert Coins"
@@ -20,7 +20,13 @@ class VendingMachineSpec extends UnitSpec {
 
   val INITIAL_INVENTORY = 3
 
-  def vendingMachine = new VendingMachine()
+  val vendingMachine = new VendingMachine()
+
+  before {
+    vendingMachine.inventory.update(CANDY, 3)
+    vendingMachine.inventory.update(CHIPS, 3)
+    vendingMachine.inventory.update(COLA, 3)
+  }
 
   "A VendingMachine" should "accept dimes and value them at 10 cents" in {
     val total = vendingMachine.coinOp.insertCoin(DIME, Coins.coins(PENNY))
@@ -143,7 +149,7 @@ class VendingMachineSpec extends UnitSpec {
     assert(product == CANDY)
     assert(message == "Thank you!")
 
-
+    assert(vendingMachine.inventory(CANDY) == 2)
   }
 
 }

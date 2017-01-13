@@ -8,7 +8,7 @@ class VendingMachine {
   val coinOp = new CoinOp()
   val display = new Display()
 
-  def inventory = mutable.Map[String, Int](
+  val inventory = mutable.Map[String, Int](
     CANDY -> 3,
     CHIPS -> 3,
     COLA -> 3
@@ -18,7 +18,9 @@ class VendingMachine {
     val price = products(product)
     val returnedProduct = if (insertedAmount >= price) product else ""
     if (returnedProduct != "") {
-      inventory(product) = inventory(product) - 1
+      inventory.update(returnedProduct, inventory(returnedProduct) - 1)
+      println(s"returnedProduct is ${returnedProduct}")
+      println(s"Inventory value for that product is now: ${inventory(returnedProduct)}")
     }
     val message = display.displayMessage(product, returnedProduct)
     (returnedProduct, message)

@@ -5,13 +5,15 @@ import scala.collection.mutable
 
 class VendingMachine {
 
+  val INITIAL_INVENTORY = 3
+
   val coinOp = new CoinOp()
   val display = new Display()
 
   val inventory = mutable.Map[String, Int](
-    CANDY -> 3,
-    CHIPS -> 3,
-    COLA -> 3
+    CANDY -> INITIAL_INVENTORY,
+    CHIPS -> INITIAL_INVENTORY,
+    COLA -> INITIAL_INVENTORY
   )
 
   def selectProduct(product: String, insertedAmount: Float): (String,String) = {
@@ -19,8 +21,6 @@ class VendingMachine {
     val returnedProduct = if (insertedAmount >= price) product else ""
     if (returnedProduct != "") {
       inventory.update(returnedProduct, inventory(returnedProduct) - 1)
-      println(s"returnedProduct is ${returnedProduct}")
-      println(s"Inventory value for that product is now: ${inventory(returnedProduct)}")
     }
     val message = display.displayMessage(product, returnedProduct)
     (returnedProduct, message)

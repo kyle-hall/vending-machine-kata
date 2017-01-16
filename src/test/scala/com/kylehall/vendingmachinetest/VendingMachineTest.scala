@@ -23,9 +23,9 @@ class VendingMachineSpec extends UnitSpec with BeforeAndAfter {
   val vendingMachine = new VendingMachine()
 
   before {
-    vendingMachine.inventory.update(CANDY, 3)
-    vendingMachine.inventory.update(CHIPS, 3)
-    vendingMachine.inventory.update(COLA, 3)
+    vendingMachine.inventory.update(CANDY, INITIAL_INVENTORY)
+    vendingMachine.inventory.update(CHIPS, INITIAL_INVENTORY)
+    vendingMachine.inventory.update(COLA, INITIAL_INVENTORY)
   }
 
   "A VendingMachine" should "accept dimes and value them at 10 cents" in {
